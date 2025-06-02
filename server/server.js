@@ -70,6 +70,11 @@ app.get('/api/leaderboard', async (req, res) => {
   }
 });
 
+// Health check endpoint for Render
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: "*" },

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Flag pole -->
+  <rect x="12" y="4" width="2" height="24" fill="#666666"/>
+  <!-- Flag -->
+  <path d="M14 6 L28 10 L14 14 L14 6" fill="#4CAF50"/>
+  <!-- Flag details -->
+  <path d="M14 6 L28 10 L14 14" stroke="#2E7D32" stroke-width="1"/>
+</svg> 

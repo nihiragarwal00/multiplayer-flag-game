@@ -29,4 +29,4 @@ yarn-error.log*
 .vscode/
 
 # Database
-/server/db/data/
+/server/db/data/*

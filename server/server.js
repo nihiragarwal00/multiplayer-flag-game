@@ -292,7 +292,7 @@ io.on("connection", (socket) => {
           await dbHelpers.updateGameQuestion(game.id, nextQuestionId);
           await dbHelpers.resetGameAnswers(game.id);
           io.to(roomId).emit("new-question", nextQuestion);
-        }, 3000);
+        }, 1500);
       } else {
         // Only emit to the incorrect player
         socket.emit("answer-result", {
@@ -323,7 +323,7 @@ io.on("connection", (socket) => {
             await dbHelpers.updateGameQuestion(game.id, nextQuestionId);
             await dbHelpers.resetGameAnswers(game.id);
             io.to(roomId).emit("new-question", nextQuestion);
-          }, 3000);
+          }, 1500);
         }
       }
     } catch (error) {
@@ -353,7 +353,7 @@ io.on("connection", (socket) => {
         await dbHelpers.updateGameQuestion(game.id, nextQuestionId);
         await dbHelpers.resetGameAnswers(game.id);
         io.to(roomId).emit("new-question", nextQuestion);
-      }, 3000);
+      }, 1500);
     } catch (error) {
       console.error("Error in time-up:", error);
     }

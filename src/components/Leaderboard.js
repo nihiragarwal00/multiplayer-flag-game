@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
-import "./Leaderboard.css";
+import React, { useState, useEffect } from 'react';
+import './Leaderboard.css';
+
+const API_URL = process.env.REACT_APP_SOCKET_URL || "http://localhost:3001";
 
 const trophyIcons = [
   '🥇', // 1st
@@ -8,26 +10,41 @@ const trophyIcons = [
 ];
 
 const Leaderboard = () => {
-  const [leaders, setLeaders] = useState([]);
+  const [topPlayers, setTopPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/leaderboard")
-      .then((res) => res.json())
-      .then((data) => {
-        setLeaders(data);
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/leaderboard`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch leaderboard');
+        }
+        const data = await response.json();
+        setTopPlayers(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchLeaderboard();
+    // Refresh leaderboard every 30 seconds
+    const interval = setInterval(fetchLeaderboard, 30000);
+    return () => clearInterval(interval);
   }, []);
 
-  if (loading) return <div className="leaderboard-card">Loading leaderboard...</div>;
+  if (loading) return <div className="leaderboard-loading">Loading leaderboard...</div>;
+  if (error) return <div className="leaderboard-error">Error loading leaderboard</div>;
 
   return (
     <div className="leaderboard-card">
       <h2 className="leaderboard-title">🏆 Global Leaderboard</h2>
       <ul className="leaderboard-list">
-        {leaders.length === 0 && <li className="leaderboard-empty">No players yet!</li>}
-        {leaders.map((player, idx) => (
+        {topPlayers.length === 0 && <li className="leaderboard-empty">No players yet!</li>}
+        {topPlayers.map((player, idx) => (
           <li
             key={player.username}
             className={`leaderboard-row ${idx < 3 ? `top${idx + 1}` : ""}`}
